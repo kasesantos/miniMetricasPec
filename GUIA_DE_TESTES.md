@@ -15,7 +15,7 @@ Este projeto implementa uma API RESTful para gestão de rebanho no agronegócio.
    npm init -y
    ```
 3. Instale as dependências da API:
-   ```bash
+   ```bashnpm 
    npm install express zod
    ```
 4. Instale as dependências de desenvolvimento:

@@ -23,12 +23,20 @@
     "tsx": "^4.23.11",
     "typescript": "^5.9.3"
   },
-  "description": "",
+  "description": "Projeto backend em Node.js com TypeScript para gestão de rebanho no agronegócio, construído com foco em validação estrita e testes E2E usando Playwright.",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasesantos/miniMetricasPec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kasesantos/miniMetricasPec/issues"
+  },
+  "homepage": "https://github.com/kasesantos/miniMetricasPec#readme"
 }

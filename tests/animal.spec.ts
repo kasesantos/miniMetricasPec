@@ -125,6 +125,94 @@ test.describe("API de Rebanho - Animais e Manejos", () => {
     );
   });
 
+  test("erro de validação: nome vazio e sem informação relevante", async () => {
+    const response = await apiRequestContext.post("/animais", {
+      data: {
+        nome: "",
+        raca: "Zebu",
+        lote: "Lote123",
+        escore: 3,
+      },
+    });
+
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: "nome",
+          message: "nome é obrigatório",
+        }),
+      ]),
+    );
+  });
+
+  test("erro de validação: raça vazia e sem informação relevante", async () => {
+    const response = await apiRequestContext.post("/animais", {
+      data: {
+        nome: "Boi do Sul",
+        raca: "",
+        lote: "Lote123",
+        escore: 3,
+      },
+    });
+
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: "raca",
+          message: "raca é obrigatória",
+        }),
+      ]),
+    );
+  });
+
+  test("erro de validação: lote vazio e sem informação relevante", async () => {
+    const response = await apiRequestContext.post("/animais", {
+      data: {
+        nome: "Boi do Sul",
+        raca: "Zebu",
+        lote: "",
+        escore: 3,
+      },
+    });
+
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: "lote",
+          message: "lote é obrigatório",
+        }),
+      ]),
+    );
+  });
+
+  test("erro de validação: escore com tipo incorreto e sem informação relevante", async () => {
+    const response = await apiRequestContext.post("/animais", {
+      data: {
+        nome: "Boi do Sul",
+        raca: "Zebu",
+        lote: "Lote123",
+        escore: "3",
+      },
+    });
+
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: "escore",
+          message: "escore deve ser um número inteiro entre 1 e 5",
+        }),
+      ]),
+    );
+  });
+
   test.describe("manejos do animal", () => {
     test.beforeAll(async () => {
       if (!createdAnimalId) {
@@ -281,6 +369,96 @@ test.describe("API de Rebanho - Animais e Manejos", () => {
           expect.objectContaining({
             path: "valor",
             message: "valor deve ser alfanumérico para brincagem",
+          }),
+        ]),
+      );
+    });
+
+    test("erro de validação: vacinacao com valor vazio e sem informação relevante", async () => {
+      const response = await apiRequestContext.post(
+        `/animais/${createdAnimalId}/manejos`,
+        {
+          data: {
+            tipo: "vacinacao",
+            valor: "",
+          },
+        },
+      );
+
+      expect(response.status()).toBe(400);
+      const body = await response.json();
+      expect(body.details).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            path: "valor",
+            message: "valor é obrigatório",
+          }),
+        ]),
+      );
+    });
+
+    test("erro de validação: pesagem com valor vazio e sem informação relevante", async () => {
+      const response = await apiRequestContext.post(
+        `/animais/${createdAnimalId}/manejos`,
+        {
+          data: {
+            tipo: "pesagem",
+            valor: "",
+          },
+        },
+      );
+
+      expect(response.status()).toBe(400);
+      const body = await response.json();
+      expect(body.details).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            path: "valor",
+            message: "valor deve ser numérico para pesagem",
+          }),
+        ]),
+      );
+    });
+
+    test("erro de validação: brincagem com valor vazio e sem informação relevante", async () => {
+      const response = await apiRequestContext.post(
+        `/animais/${createdAnimalId}/manejos`,
+        {
+          data: {
+            tipo: "brincagem",
+            valor: "",
+          },
+        },
+      );
+
+      expect(response.status()).toBe(400);
+      const body = await response.json();
+      expect(body.details).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            path: "valor",
+            message: "valor é obrigatório",
+          }),
+        ]),
+      );
+    });
+
+    test("erro de validação: tipo ausente e sem informação relevante", async () => {
+      const response = await apiRequestContext.post(
+        `/animais/${createdAnimalId}/manejos`,
+        {
+          data: {
+            valor: "Aftosa",
+          },
+        },
+      );
+
+      expect(response.status()).toBe(400);
+      const body = await response.json();
+      expect(body.details).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            path: "tipo",
           }),
         ]),
       );
