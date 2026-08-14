@@ -1,110 +1,72 @@
 # miniMetricasPec
 
-Projeto backend em Node.js com TypeScript para gestão de rebanho no agronegócio, construído com foco em validação estrita e testes E2E usando Playwright.
+Projeto backend em Node.js com TypeScript para gestão de rebanho no agronegócio, com validação estrita via Zod e testes E2E via Playwright.
 
-## Tecnologias
+> 📚 **Desafio da Mentoria 2.0** com Júlio de Lima — Projeto desenvolvido como portfólio demonstrando boas práticas em validação, testes e arquitetura.
 
-- Node.js
-- TypeScript
-- Express
-- Zod
-- Playwright
-- tsx
+## 🛠️ Tecnologias
 
-## Estrutura do projeto
+Node.js • TypeScript • Express • Zod • Playwright • tsx
 
-- `src/`
-  - `app.ts` - configuração do Express e rotas principais
-  - `server.ts` - ponto de entrada do servidor
-  - `routes/animais.ts` - rotas de cadastro de animais e manejos
-  - `schemas/animais.ts` - validação dos payloads com Zod
-- `tests/` - testes E2E da API com Playwright
-- `playwright.config.ts` - configuração de execução do Playwright
-- `tsconfig.json` - configuração do compilador TypeScript
-- `GUIA_DE_TESTES.md` - documentação de instalação e execução dos testes
+## 📁 Estrutura do projeto
 
-## Regras de negócio implementadas
+```
+src/
+  app.ts              # Configuração Express
+  server.ts           # Ponto de entrada
+  routes/animais.ts   # Rotas (POST /animais, POST /animais/:id/manejos)
+  schemas/animais.ts  # Validação Zod
+tests/
+  animal.spec.ts      # Testes E2E Playwright
+```
 
-### `POST /animais`
+## 🚀 Quick Start
 
-Body esperado:
+```bash
+npm install
+npm run dev          # Servidor em http://localhost:3333
+```
 
-- `nome`: string contendo apenas letras e espaços
-- `raca`: string contendo apenas letras e espaços
-- `lote`: string alfanumérica sem espaços ou caracteres especiais
-- `escore`: número inteiro entre `1` e `5`
+## 🧪 Testes
 
-Retorna `201` quando válido e `400` com mensagens detalhadas se a validação falhar.
+Testes E2E com cobertura completa de validações e fluxos de negócio:
 
-### `POST /animais/:id/manejos`
+```bash
+npm test              # Modo headless
+npm run test:ui       # Modo UI interativo
+npm run test:headed   # Com browser visível
+```
 
-Body esperado:
+**Cobertura:**
+- ✅ Cadastro de animal com validações (nome, raca, lote, escore)
+- ✅ Cadastro de manejo com tipo específico (vacinacao, pesagem, brincagem)
+- ✅ Validações negativas para cada campo
+- ✅ Erro 404 quando animal não existe
+- ✅ Respostas estruturadas com mensagens claras
 
-- `tipo`: um dos valores `vacinacao`, `pesagem` ou `brincagem`
-- `valor`: validação dependente de `tipo`
-  - `vacinacao`: somente letras
-  - `pesagem`: valor numérico
-  - `brincagem`: somente alfanumérico
+Ver [GUIA_DE_TESTES.md](GUIA_DE_TESTES.md) para detalhes sobre as regras de validação.
 
-Retorna `201` quando válido, `400` em caso de validação e `404` quando o animal não é encontrado.
+## 🔌 Endpoints
 
-## Endpoints disponíveis
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `GET` | `/` | Status da API |
+| `POST` | `/animais` | Cadastrar animal |
+| `POST` | `/animais/:id/manejos` | Adicionar manejo |
 
-- `GET /` - retorna mensagem de status da API
-- `POST /animais` - cadastrar animal
-- `POST /animais/:id/manejos` - cadastrar manejo para um animal existente
+## 📋 Scripts
 
-## Scripts úteis
+| Comando | Função |
+|---------|--------|
+| `npm run dev` | Servidor com watch |
+| `npm run build` | Compilar TypeScript |
+| `npm start` | Rodar compilado |
+| `npm test` | Rodar testes |
 
-- `npm run dev` - inicia o servidor em modo de desenvolvimento com `tsx watch`
-- `npm run build` - compila o TypeScript em `dist/`
-- `npm start` - executa o servidor compilado em `dist/`
-- `npm test` - executa os testes Playwright em modo headless
-- `npm run test:ui` - abre o Playwright UI para execução interativa dos testes
-- `npm run test:headed` - executa os testes Playwright com browser visível
+## ✔️ Validações implementadas
 
-## Como rodar o projeto
+Consulte [GUIA_DE_TESTES.md](GUIA_DE_TESTES.md) para a tabela completa de regras (nome, raca, lote, escore, tipos de manejo e valores).
 
-1. Instalar dependências:
-   ```bash
-   npm install
-   ```
-2. Iniciar o servidor em desenvolvimento:
-   ```bash
-   npm run dev
-   ```
-3. Verificar a API acessando:
-   ```text
-   http://localhost:3333
-   ```
+A API é modular e pronta para expansão com persistência, autenticação e mais endpoints.
 
-## Como testar
-
-- Rodar todos os testes:
-  ```bash
-  npm test
-  ```
-- Rodar em modo UI:
-  ```bash
-  npm run test:ui
-  ```
-- Rodar em modo headed:
-  ```bash
-  npm run test:headed
-  ```
-
-## Cobertura de testes
-
-Os testes cobrem:
-
-- Cadastro de animal válido
-- Validações negativas para `nome`, `raca`, `lote` e `escore`
-- Cadastro de manejo válido para todos os tipos permitidos
-- Validações negativas de `tipo` e `valor` para cada tipo de manejo
-- Erro `404` quando animal não existe ao tentar cadastrar manejo
-
-## Observações
-
-- O projeto usa validações Zod para garantir que apenas dados corretos sejam aceitos.
-- O arquivo `GUIA_DE_TESTES.md` contém um guia passo a passo mais detalhado para instalação, configuração e execução de testes.
-- A API é modular e está pronta para expansão com persistência, autenticação ou mais rotas de negócio.
+By Kasé Santos
